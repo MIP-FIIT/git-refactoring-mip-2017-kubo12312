@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string>
 
-FILE *v() {
+FILE *vypis_suboru() {
 	FILE *p_file = fopen("predaj.txt", "r");;
 
 	if (p_file == NULL) {
@@ -40,7 +40,7 @@ FILE *v() {
 	return p_file;
 }
 
-void o(FILE *p_file) {
+void odmeny(FILE *p_file) {
 	int datum_zadany, datum_subor;
 	scanf("%d", &datum_zadany);
 	int poc = 1;
@@ -240,50 +240,52 @@ int main()
 	while ((funkcia = getchar()) != 'k') {
 		if (funkcia == 'v')
 		{
-			p_file = v();
+			p_file = vypis_suboru();
 		}
 		else if ((p_file != NULL) && (p_spz == NULL) && (funkcia == 'n'))
 		{
 			p_spz = n(p_file);
 		}
-		else if ((p_file != NULL) && (p_spz != NULL) && (funkcia == 'n'))
+		if ((p_file != NULL) && (p_spz != NULL))
 		{
-			char ch;
-			int poc = 1, i;
-			while (!feof(p_file)) {
-				ch = fgetc(p_file);
-				if (ch == '\n') {
-					poc++;
-				}
-			}
-			fseek(p_file, 0L, SEEK_SET);
-			for (i=0;i<(poc/5);i++)
+			switch(funkcia)
 			{
-				free(p_spz[i]);
+				case 'o':
+					odmeny(p_file);
+					break;
+				case 's':
+					s(p_spz, p_file);
+					break;
+				case 'p':
+					p(p_spz, p_file);
+					break;
+				case 'z':
+					z(p_spz, p_file);
+					break;
+				case 'n': 
+					char ch;
+					int poc = 1, i;
+					while (!feof(p_file)) {
+						ch = fgetc(p_file);
+						if (ch == '\n') {
+							poc++;
+						}
+					}
+					fseek(p_file, 0L, SEEK_SET);
+					for (i=0;i<(poc/5);i++)
+					{
+						free(p_spz[i]);
+					}
+					free(p_spz);
+					p_spz = n(p_file);
+					break;
 			}
-			free(p_spz);
-			p_spz = n(p_file);
 		}
-		else if ((p_file != NULL) && (funkcia == 'o'))
-		{
-			o(p_file);
-		}
-		else if ((p_file != NULL) && (p_spz != NULL) && (funkcia == 's'))
-		{
-			s(p_spz, p_file);
-		}
-		else if ((p_file != NULL) && (p_spz != NULL) && (funkcia == 'p'))
-		{
-			p(p_spz, p_file);
-		}
-		else if ((p_file != NULL) && (p_spz != NULL) && (funkcia == 'z'))
-		{
-			z(p_spz, p_file);
-		}
-		else if (((p_spz == NULL) && (funkcia == 's')) ||  (p_spz == NULL) && (funkcia == 'p'))
+		else if (((p_spz == NULL) && ((funkcia == 's')) || (funkcia == 'p')))
 		{
 			printf("Pole nie je vytvorene\n");
 		}
+
 	}
 	if (p_file != NULL)
 	{

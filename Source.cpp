@@ -41,8 +41,8 @@ FILE *v() {
 }
 
 void o(FILE *p_file) {
-	int datum_a, datum;
-	scanf("%d", &datum_a);
+	int datum_zadany, datum_subor;
+	scanf("%d", &datum_zadany);
 	int poc = 1;
 	char riadok[50], ch;
 	while (!feof(p_file)) {
@@ -53,20 +53,20 @@ void o(FILE *p_file) {
 	}
 	poc = poc / 5;
 	fseek(p_file, 0L, SEEK_SET);
-	int i = 1, j=0, poz=1;
+	int i = 1, j=0, pozicia=1;
 	int *pozicie = (int *)malloc(sizeof(int)*(poc));
 	while (!feof(p_file)) {
 		fgets(riadok, sizeof(riadok), p_file);
 		if (i == 5) {
 			i = 0;
-			datum = atoi(riadok);
-			if ((datum_a - datum) > 10000) {			//pokial to je nad 10000 znamen· to ze tam pracuje viac ako rok
-				pozicie[j] = poz;
+			datum_subor = atoi(riadok);
+			if ((datum_zadany - datum_subor) > 10000) {			//pokial to je nad 10000 znamen· to ze tam pracuje viac ako rok
+				pozicie[j] = pozicia;
 				j++;
 			}
 		}
 		i++;
-		poz++;
+		pozicia++;
 	}													//zisùovanie kto ma narok na odmenu
 	fseek(p_file, 0L, SEEK_SET);
 	i = 1;

@@ -111,7 +111,7 @@ void odmeny(FILE *p_file) {
 	free(pozicie);
 }
 
-char** n(FILE *p_file) {
+char** vytvorenie_pola_SPZ(FILE *p_file) {
 	int poc = 1, i = 1, j = 0, l, k=0;
 	char ch;
 	while (!feof(p_file)) {
@@ -142,7 +142,7 @@ char** n(FILE *p_file) {
 	return p_spz;
 }
 
-void s(char **p_spz, FILE *p_file) {
+void vypis_SPZ(char **p_spz, FILE *p_file) {
 	char ch;
 	int poc = 1;
 	while (!feof(p_file)) {
@@ -166,7 +166,7 @@ void s(char **p_spz, FILE *p_file) {
 	fseek(p_file, 0L, SEEK_SET);
 }
 
-void p(char **p_spz, FILE *p_file)
+void palindrom(char **p_spz, FILE *p_file)
 {
 	char ch;
 	int poc = 1;
@@ -204,7 +204,7 @@ void p(char **p_spz, FILE *p_file)
 	fseek(p_file, 0L, SEEK_SET);
 }
 
-void z(char **p_spz, FILE *p_file)
+void predajnost(char **p_spz, FILE *p_file)
 {
 	char ch;
 	int poc = 1, i, j, pomoc, poc_spz = 1, max = -1, poz = 0;
@@ -244,7 +244,7 @@ int main()
 		}
 		else if ((p_file != NULL) && (p_spz == NULL) && (funkcia == 'n'))
 		{
-			p_spz = n(p_file);
+			p_spz = vytvorenie_pola_SPZ(p_file);
 		}
 		if ((p_file != NULL) && (p_spz != NULL))
 		{
@@ -254,13 +254,13 @@ int main()
 					odmeny(p_file);
 					break;
 				case 's':
-					s(p_spz, p_file);
+					vypis_SPZ(p_spz, p_file);
 					break;
 				case 'p':
-					p(p_spz, p_file);
+					palindrom(p_spz, p_file);
 					break;
 				case 'z':
-					z(p_spz, p_file);
+					predajnost(p_spz, p_file);
 					break;
 				case 'n': 
 					char ch;
@@ -277,7 +277,7 @@ int main()
 						free(p_spz[i]);
 					}
 					free(p_spz);
-					p_spz = n(p_file);
+					p_spz = vytvorenie_pola_SPZ(p_file);
 					break;
 			}
 		}

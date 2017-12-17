@@ -219,6 +219,39 @@ void predajnost(char **p_spz, FILE *p_file)
 	fseek(p_file, 0L, SEEK_SET);
 }
 
+void histogram (char **p_spz, FILE *p_file)
+{
+	int poc = pocet_riadkov(p_file);
+	poc = poc / 5;
+	int i, j, k = 0, poc_b, cislo;
+	char l = 48;
+	char *p_pomoc = (char*)malloc(sizeof(char)*(poc*3)), *p_histogram = (char*)malloc(sizeof(char)*10);
+	for (i=0;i<poc;i++)
+		for (j=0;j<7;j++)
+			if ((j==2) || (j==3) || (j==4))
+			{
+				p_pomoc[k] = p_spz[i][j];
+				k++;
+			}
+
+	for (i=0;i<10;i++)
+	{
+		p_histogram[i] = l;
+		l++;
+	}
+	for (i=0;i<10;i++)
+	{
+		poc_b = 0;
+		for (j=0;j<(poc*3);j++)
+			if (p_histogram[i] == p_pomoc[j])
+				poc_b++;
+		if (poc_b !=0)
+			printf("%c:%d\n", p_histogram[i], poc_b);
+	}
+	free(p_pomoc);
+	free(p_histogram);
+}
+
 int main()
 {
 	char funkcia, **p_spz = NULL;
@@ -248,6 +281,8 @@ int main()
 				case 'z':
 					predajnost(p_spz, p_file);
 					break;
+				case 'b':
+					histogram(p_spz, p_file);
 				case 'n': 
 					char ch;
 					int poc = 1, i;

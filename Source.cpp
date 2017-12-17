@@ -5,6 +5,19 @@
 #include <stdlib.h>
 #include <string>
 
+int pocet_riadkov(FILE *p_file)
+{
+	char ch;
+	int poc = 1;
+	while (!feof(p_file)) {
+		ch = fgetc(p_file);
+		if (ch == '\n') {
+			poc++;
+		}
+	}
+	return poc;
+}
+
 FILE *vypis_suboru() {
 	FILE *p_file = fopen("predaj.txt", "r");;
 
@@ -43,14 +56,8 @@ FILE *vypis_suboru() {
 void odmeny(FILE *p_file) {
 	int datum_zadany, datum_subor;
 	scanf("%d", &datum_zadany);
-	int poc = 1;
-	char riadok[50], ch;
-	while (!feof(p_file)) {
-		ch = fgetc(p_file);
-		if (ch == '\n') {
-			poc++;
-		}
-	}
+	int poc = pocet_riadkov(p_file);
+	char riadok[50];
 	poc = poc / 5;
 	fseek(p_file, 0L, SEEK_SET);
 	int i = 1, j=0, pozicia=1;
@@ -112,14 +119,7 @@ void odmeny(FILE *p_file) {
 }
 
 char** vytvorenie_pola_SPZ(FILE *p_file) {
-	int poc = 1, i = 1, j = 0, l, k=0;
-	char ch;
-	while (!feof(p_file)) {
-		ch = fgetc(p_file);
-		if (ch == '\n') {
-			poc++;
-		}
-	}
+	int poc = pocet_riadkov(p_file), i = 1, j = 0, l, k=0;
 	poc = poc / 5;
 	fseek(p_file, 0L, SEEK_SET);
 	char **p_spz = (char **)malloc(poc * sizeof(char*));
@@ -143,14 +143,8 @@ char** vytvorenie_pola_SPZ(FILE *p_file) {
 }
 
 void vypis_SPZ(char **p_spz, FILE *p_file) {
-	char ch;
-	int poc = 1;
-	while (!feof(p_file)) {
-		ch = fgetc(p_file);
-		if (ch == '\n') {
-			poc++;
-		}
-	}
+	int poc;
+	poc = pocet_riadkov(p_file);
 	for (int i = 0; i < (poc/5); i++) {
 		for (int j = 0; j < 7; j++) {
 			printf("%c", p_spz[i][j]);
@@ -168,15 +162,7 @@ void vypis_SPZ(char **p_spz, FILE *p_file) {
 
 void palindrom(char **p_spz, FILE *p_file)
 {
-	char ch;
-	int poc = 1;
-	while (!feof(p_file)) {
-		ch = fgetc(p_file);
-		if (ch == '\n') {
-			poc++;
-		}
-	}
-	int i, z, j;
+	int poc = pocet_riadkov(p_file), i, z, j;
 	char *b;
 	for (i = 0; i < (poc/5); i++)
 	{
